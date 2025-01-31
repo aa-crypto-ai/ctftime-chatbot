@@ -39,3 +39,5 @@ cp sample.env master.env
 # put your OpenRouter API key to master.env
 docker build -t ctftime-chatbot . && docker run -it ctftime-chatbot
 ```
+
+Note: sometimes OpenRouter API would fail to give an response, please keep retrying
