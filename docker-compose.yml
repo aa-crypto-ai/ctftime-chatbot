@@ -1,0 +1,16 @@
+version: '3'
+services:
+  chatbot:
+    image: llm/ctftime-chatbot
+    build:
+      context: .
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1 # alternatively, use `count: all` for all GPUs
+              capabilities: [gpu]
+    ports:
+      - 5000:5000
+    command: "python app/app.py"

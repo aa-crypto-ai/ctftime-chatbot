@@ -1,4 +1,3 @@
-import dotenv
 import langchain
 from langchain_core.messages import HumanMessage
 from langchain_community.vectorstores import FAISS
@@ -22,32 +21,28 @@ Question: {question}
 
 Context: {context}"""
 
+embed_model = HuggingFaceEmbeddings(model_name="sentence-transformers/all-mpnet-base-v2")
+db = FAISS.load_local("faiss_data/ctftime", embed_model, allow_dangerous_deserialization=True)
+
 def format_docs(docs):
     # TextLoader auto converts single linebreak to double linebreaks, remove it to avoid wrong context intepretation
     return "\n\n".join(doc[0].page_content.replace('\n\n', '\n') for doc in docs)
 
-if __name__ == '__main__':
+def get_response(prompt: str, family_name: str, model_name: str):
+    global db, template
 
-    # chat_model = ChatOpenRouter(model_name="meta-llama/llama-3.2-1b-instruct:free")
-    chat_model = ChatOpenRouter(model_name="meta-llama/llama-3.1-70b-instruct:free")
-    # chat_model = ChatOpenRouter(model_name="mistralai/mistral-small-24b-instruct-2501")
+    # potentially use caching
+    chat_model = ChatOpenRouter(model_name=f"{family_name:s}/{model_name:s}")
+    # k in config
+    docs_filter = db.similarity_search_with_score(prompt, k=3)
 
-    # load data and get embeddings
-    # loader = DirectoryLoader('./raw_data/ctftime', use_multithreading=False)
-    # docs = loader.load()
-    embed_model = HuggingFaceEmbeddings(model_name="sentence-transformers/all-mpnet-base-v2")
-    # db = FAISS.from_documents(docs, embed_model)
-
-    # pre-save the vectors of docs with the embeddings
-    # db.save_local('faiss_data/ctftime')
-    db = FAISS.load_local("faiss_data/ctftime", embed_model, allow_dangerous_deserialization=True)
-
-    while True:
-        question = input('What can I help you?\n> ')
-        docs_filter = db.similarity_search_with_score(question, k=3)
+    # max 10 tries, OpenRouter API could be unstable
+    for _ in range(10):
         try:
-            resp = chat_model.invoke([HumanMessage(template.format(**{'question': question, 'context': format_docs(docs_filter)}))])
-            print(resp.content)
-            print('\n')
+            resp = chat_model.invoke([HumanMessage(template.format(**{'question': prompt, 'context': format_docs(docs_filter)}))])
+            return resp.content
         except Exception as e:
-            print('[Internal Error] Please try again\n\n')
+            # do logging
+            continue
+
+    return None

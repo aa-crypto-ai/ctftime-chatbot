@@ -22,7 +22,6 @@ ENV PATH=/home/user/anaconda3/envs/llm-rag/bin:/home/user/anaconda3/bin:$PATH
 
 COPY . /usr/src/app/
 WORKDIR /usr/src/app/
+ENV PYTHONPATH "."
 
 RUN conda env create -f environment.yml
-
-CMD ["python", "app.py"]

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>CTFTime Q&A Chatbot</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <link href="{{ url_for('static', filename='css/external/bootstrap.5.3.3.min.css') }}" rel="stylesheet" media="screen">
+    <link href="{{ url_for('static', filename='css/external/mermaid.6.2.0.min.css') }}" rel="stylesheet" media="screen">
+    <link href="{{ url_for('static', filename='css/app/base.css') }}" rel="stylesheet" media="screen">
+  </head>
+  <body>
+
+    <form action="chatbot" method="post" style="width: 500px;">
+      <div class="form-group">
+        <label for="prompt">Please feel free to ask the CTFTime chatbot.</label>
+        <textarea class="form-control" name="prompt" id="prompt" rows="6" placeholder="What is CTF?">{{ prompt }}</textarea>
+      </div>
+      <input type="submit" class="btn btn-primary mb-2" value="Submit">
+    </form>
+
+    <div id="table" style="width: 90%"></div>
+
+  </body>
+  <script src="{{ url_for('static', filename='js/external/bootstrap.5.3.3.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/external/gridjs.6.2.0.umd.js') }}"></script>
+  <script>
+      new gridjs.Grid({
+        columns: [
+          { id: 'family_name', name: 'Family', width: '15%' },
+          { id: 'model_name', name: 'Model', width: '20%' },
+          { id: 'output', name: 'Output', width: '60%' },
+        ],
+        // need async, to be done
+        data: [
+          {% for model in models %}
+            {
+              family_name: '{{ model.family_name }}',
+              model_name: '{{ model.model_name }}',
+              output: "{{ model.output }}",
+            },
+          {% endfor %}
+        ],
+        //search: true,
+        //sort: true,
+        //pagination: true,
+      }).render(document.getElementById('table'));
+  </script>
+</html>

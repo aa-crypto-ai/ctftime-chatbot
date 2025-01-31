@@ -4,7 +4,7 @@ This is a self-study RAG project of building Q&A chatbot for CTFtime platform. U
 ![Demo](demo.png)
 
 ## TODO
-A web interface will be built allowing model selection / comparison / evaluation
+Model evaluation will be done and more models will be available.
 
 ## How to run
 Current dockerfile requires the gpu, and so for safety you could follow the below config for setting up nvidia for docker. Theoretically since it's using OpenRouter for LLM inference APIs, GPU should be not a prerequisite and I may change the docker image later.
@@ -37,7 +37,7 @@ git clone https://github.com/aa-crypto-ai/ctftime-chatbot.git
 cd ctftime-chatbot
 cp sample.env master.env
 # put your OpenRouter API key to master.env
-docker build -t ctftime-chatbot . && docker run -it ctftime-chatbot
+docker-compose up --build
 ```
 
 Note: sometimes OpenRouter API would fail to give an response, please keep retrying
