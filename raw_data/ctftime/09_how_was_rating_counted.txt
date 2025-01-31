@@ -1,0 +1,2 @@
+How was rating counted?
+Read more at https://ctftime.org/rating-formula/. Also, CTF organizers get rating points for their events.

@@ -1,0 +1,2 @@
+How can I join the team?
+Send membership request using form in your Profile. If your team has active members, they will need to approve your request or send you an invitation code. Invitation code can be found in Profile -> Your teams -> Edit your team. If your team has no registered members, administrators will approve your membership request, and then you will be able to manage your team yourself.

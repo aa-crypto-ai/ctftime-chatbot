@@ -1,0 +1,2 @@
+How can I remove a team member?
+Two team members can remove any other team member. The only limitation is they should join a team earlier than 15 days ago. If there are only 2 members in a team, then one member can remove the other. Also, team member can leave a team by himself, so you can politely ask your member to leave. So, be careful accepting team membership requests or sharing membership keys. Use feedback form to contact us in special case.

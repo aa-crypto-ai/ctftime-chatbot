@@ -1,0 +1,2 @@
+Can I delete my account?
+Yes, you can delete it at https://ctftime.org/gdpr

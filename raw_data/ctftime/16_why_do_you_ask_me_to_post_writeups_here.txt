@@ -1,0 +1,2 @@
+Why do you ask me to post writeups here?
+We noticed that most CTF teams websites do not live long. That mean - all their writeups are gone after some time. We ask you to post a copy of your writeup to CTFtime, so new generations of CTFers can use them for study.

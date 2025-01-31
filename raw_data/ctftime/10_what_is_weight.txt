@@ -1,0 +1,2 @@
+What is "weight"?
+Weight is a parameter used in rating formula to count team ratings. Weight is determined from team votes or set by CTFtime admins. In 2017 rating events previous years weight used if available or determined via voting overwise.

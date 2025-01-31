@@ -1,0 +1,2 @@
+How can I merge results of my teams?
+All merges are manual - you need to send merge request via special form. Notice: if you played with some team for a couple of years and now want to play with another team, be polite - don't loose history merging those teams, just create a new one. If you going to merge teams after some CTF - don't do it, just add an alias to your team before the event. You can't merge teams ever participted in the same contest. From season 2014 there is a new rule for team merging: You can merge teams not later than 2 weeks after the event finished.
