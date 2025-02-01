@@ -10,7 +10,7 @@
   </head>
   <body>
 
-    <form action="chatbot" method="post" style="width: 500px;">
+    <form id='chatbot-form' action="chatbot" method="post" style="width: 500px;">
       <div class="form-group">
         <label for="prompt">Please feel free to ask the CTFTime chatbot.</label>
         <textarea class="form-control" name="prompt" id="prompt" rows="6" placeholder="What is CTF?">{{ prompt }}</textarea>
@@ -24,22 +24,43 @@
   <script src="{{ url_for('static', filename='js/external/bootstrap.5.3.3.min.js') }}"></script>
   <script src="{{ url_for('static', filename='js/external/gridjs.6.2.0.umd.js') }}"></script>
   <script>
+      function setResponseFormat(cell, row, attributes) {
+        // maintain line breaks or quotation marks
+        // line wrap is done in css
+        cell = `<pre>${cell}</pre>`;
+        return gridjs.html(cell);
+      }
       new gridjs.Grid({
         columns: [
           { id: 'family_name', name: 'Family', width: '15%' },
           { id: 'model_name', name: 'Model', width: '20%' },
-          { id: 'output', name: 'Output', width: '60%' },
+          { id: 'output', name: 'Output', width: '60%', formatter: (cell, row, attributes) => setResponseFormat(cell, row, attributes) },
         ],
-        // need async, to be done
-        data: [
-          {% for model in models %}
-            {
-              family_name: '{{ model.family_name }}',
-              model_name: '{{ model.model_name }}',
-              output: "{{ model.output }}",
-            },
-          {% endfor %}
-        ],
+        server: {
+          url: '{{ url_for("get_inference") }}',
+          data: (opts) => {
+            return new Promise((resolve, reject) => {
+              const xhttp = new XMLHttpRequest();
+              xhttp.onreadystatechange = function() {
+                if ( this.readyState === 4 ) {
+                  if ( this.status === 200 ) {
+                    const resp = JSON.parse(this.response);
+                    resolve({
+                      data: resp.data.map(output => [output.family_name, output.model_name, output.output]),
+                      total: resp.total_models,
+                    });
+                  } else {
+                    reject();
+                  }
+                }
+              };
+              var formData = new FormData( document.getElementById("chatbot-form") );
+              // need async for each model, to be done
+              xhttp.open("POST", opts.url, true);
+              xhttp.send(formData);
+            });
+          }
+        }
         //search: true,
         //sort: true,
         //pagination: true,

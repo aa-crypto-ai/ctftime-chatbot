@@ -2,3 +2,7 @@ body {
     position: relative;
     margin: 1%;
 }
+
+pre {
+    white-space: pre-wrap;
+}
