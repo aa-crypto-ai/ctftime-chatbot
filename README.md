@@ -4,7 +4,15 @@ This is a self-study RAG project of building Q&A chatbot for CTFtime platform. U
 ![Demo](demo.png)
 
 ## TODO
-Model evaluation will be done and more models will be available.
+- Document retrieval algorithm flexibility / improvement
+- More model evaluation will be done (currently context precision is done).
+- Refactor of backend
+- Maybe a refactor of frontend
+
+## Sidenotes
+- Context precision differs because LLM models could give different result on the verdict
+- It is taking over a minute to display the result due to no async, and UI is not user friendly enough to show the loading progress
+- OpenRouter API is unstable for Llama and often gives no response.
 
 ## How to run
 Current dockerfile requires the gpu, and so for safety you could follow the below config for setting up nvidia for docker. Theoretically since it's using OpenRouter for LLM inference APIs, GPU should be not a prerequisite and I may change the docker image later.

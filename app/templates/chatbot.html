@@ -30,11 +30,21 @@
         cell = `<pre>${cell}</pre>`;
         return gridjs.html(cell);
       }
+      function setPrecFormat(cell, row, attributes) {
+        // maintain line breaks or quotation marks
+        // line wrap is done in css
+        if ( cell === null ) {
+          cell = 'N/A';
+        } else {
+          cell = `${(Math.round(cell * 100) / 100).toFixed(2)}`;
+        }
+        return gridjs.html(cell);
+      }
       new gridjs.Grid({
         columns: [
-          { id: 'family_name', name: 'Family', width: '15%' },
-          { id: 'model_name', name: 'Model', width: '20%' },
-          { id: 'output', name: 'Output', width: '60%', formatter: (cell, row, attributes) => setResponseFormat(cell, row, attributes) },
+          { id: 'display_name', name: 'Model', width: '20%' },
+          { id: 'context_precision', name: 'Context Precision', width: '15%', formatter: (cell, row, attributes) => setPrecFormat(cell, row, attributes) },
+          { id: 'output', name: 'Output', formatter: (cell, row, attributes) => setResponseFormat(cell, row, attributes) },
         ],
         server: {
           url: '{{ url_for("get_inference") }}',
@@ -46,9 +56,12 @@
                   if ( this.status === 200 ) {
                     const resp = JSON.parse(this.response);
                     resolve({
-                      data: resp.data.map(output => [output.family_name, output.model_name, output.output]),
+                      data: resp.data.map(output => [output.display_name, output.context_precision, output.output]),
                       total: resp.total_models,
                     });
+		      // should be shown on frontend, but for the time being just show in console log first
+		      // later need to rewrite the frontend
+                      console.log('docs', resp.docs);
                   } else {
                     reject();
                   }
