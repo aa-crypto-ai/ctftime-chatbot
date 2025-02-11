@@ -13,4 +13,4 @@ services:
               capabilities: [gpu]
     ports:
       - 5000:5000
-    command: "python app/app.py"
+    command: "python app/server.py"
