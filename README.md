@@ -6,6 +6,7 @@ This is a self-study RAG project of building Q&A chatbot for CTFtime platform. U
 ## TODO
 - Document retrieval algorithm flexibility / improvement
 - make inference async
+- Add a chatbot page with moderation implemented
 - More model evaluation will be done (currently context precision is done).
 - Maybe a refactor of frontend
 
