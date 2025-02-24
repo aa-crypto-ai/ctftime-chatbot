@@ -16,6 +16,7 @@ dependencies:
   - langchain=0.3.17
   - langchain-chroma=0.2.1
   - langchain-community=0.3.16
+  - langchain-experimental=0.3.4
   - langchain-huggingface=0.1.2
   - langchain-openai=0.3.3
   - langchainhub=0.1.21
@@ -30,5 +31,9 @@ dependencies:
 
   - pip:
     - evaluate==0.4.3
+    - langchain-neo4j==0.3.0
+    - neo4j==5.28.1
+    - neo4j-graphrag==1.4.3
     - rouge_score==0.1.2
     - torch==2.6.0
+    - yfiles_jupyter_graphs==1.10.1

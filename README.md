@@ -1,6 +1,8 @@
 ## What is this?
 This is a self-study RAG project of building Q&A chatbot for CTFtime platform. Users can input a prompt to ask about CTFtime with reference to their FAQ section https://ctftime.org/faq/.
 
+This branch is for GraphRAG exploration purpose, since CTFtime Q&A is not good for this purpose, I added a set of data of 2024 summer olympics medalists. It should be better to split these 2 projects but for now I am putting it into a new branch first. Cleaning it will be on TODO list.
+
 ![Demo](demo.png)
 
 ## TODO
@@ -8,6 +10,7 @@ This is a self-study RAG project of building Q&A chatbot for CTFtime platform. U
 - make inference async
 - Add a chatbot page with moderation implemented
 - More model evaluation will be done (currently context precision is done).
+- Separate CTFtime chatbot & 2024 olympics medalists chatbot
 - Maybe a refactor of frontend
 
 ## Sidenotes
@@ -40,10 +43,35 @@ docker run -it --rm --gpus all ubuntu nvidia-smi
 then go to https://hub.docker.com/r/nvidia/cuda/tags to choose the appropriate image and modify the `Dockerfile` if needed
 
 ### Build and run the docker
+1. Chatbot
 ```
 git clone https://github.com/aa-crypto-ai/ctftime-chatbot.git
 cd ctftime-chatbot
 cp sample.env master.env
 # put your OpenRouter API key to master.env
 docker-compose up --build
+```
+
+2. 2024 olympics medalists POC
+First run the above chatbot (for convenience)
+```
+# to view the poc
+docker ps # check container ID
+docker exec -it <container_id> bash
+python llm/doc_retrieval/graphrag.py
+```
+
+Below are the outputs
+```
+How many atheletes did Japan have?
+
+
+> Entering new GraphCypherQAChain chain...
+Generated Cypher:
+MATCH (p:Person)-[:REPRESENTS_COUNTRY]->(c:Country {id: 'Japan'}) RETURN COUNT(p)
+Full Context:
+[{'COUNT(p)': 35}]
+
+> Finished chain.
+Japan had 35 athletes.
 ```
