@@ -9,7 +9,7 @@ def get_docs_faiss(prompt: str):
     db = cache.get('db')
     if db is None:
         embed_model = HuggingFaceEmbeddings(model_name="sentence-transformers/all-mpnet-base-v2")
-        db = FAISS.load_local("faiss_data/ctftime", embed_model, allow_dangerous_deserialization=True)
+        db = FAISS.load_local("data/faiss_data/ctftime", embed_model, allow_dangerous_deserialization=True)
         cache.set('db', db)
 
     # k in config
